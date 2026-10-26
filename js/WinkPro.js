@@ -1,17 +1,31 @@
-// Wink Pro Crack
+// Wink Pro Full Unlock
 var obj = JSON.parse($response.body);
 
-if (obj.data) {
-    obj.data.is_vip = true;
-    obj.data.vip_type = 1;
-    obj.data.vip_expire_time = 9999999999;
-    obj.data.is_lifetime_vip = true;
+// Hàm đệ quy để tìm và sửa tất cả các trường VIP ở mọi cấp độ JSON
+function unlockVip(data) {
+    if (!data || typeof data !== 'object') return;
     
-    if (obj.data.vip_group) {
-        for (let i = 0; i < obj.data.vip_group.length; i++) {
-            obj.data.vip_group[i].is_owned = true;
-            obj.data.vip_group[i].expire_time = 9999999999;
+    for (let key in data) {
+        // Nếu key liên quan đến VIP
+        if (key.toLowerCase().includes('vip') || key.toLowerCase().includes('member') || key.toLowerCase().includes('pro')) {
+            if (typeof data[key] === 'boolean') {
+                data[key] = true; // Bật tất cả các cờ boolean
+            } else if (typeof data[key] === 'number') {
+                data[key] = 1; // Đặt trạng thái thành 1
+            } else if (typeof data[key] === 'string' && (data[key].includes('false') || data[key] === '0')) {
+                data[key] = 'true';
+            } else if (key.toLowerCase().includes('expire') || key.toLowerCase().includes('time')) {
+                data[key] = 9999999999; // Vô hạn thời gian
+            }
+        }
+        
+        // Đệ quy sâu vào bên trong
+        if (typeof data[key] === 'object') {
+            unlockVip(data[key]);
         }
     }
 }
+
+unlockVip(obj);
+
 $done({ body: JSON.stringify(obj) });
