@@ -1,0 +1,12 @@
+#!name=Wink Pro
+#!desc=Mở khóa tính năng Pro cho Wink
+#!author=ntanphatt
+#!moduleUrl=https://raw.githubusercontent.com/ntanphatt/WinPro/main/WinkPro.sgmodule
+#!icon=https://raw.githubusercontent.com/ntanphatt/LocketGold/main/logo.jpg
+#!howtouse=Shadowrocket
+
+[Script]
+Wink = type=http-response, pattern=^https:\/\/api-sub\.meitu\.com\/v2\/user\/vip_info_by_group\.json, requires-body=1, script-path=https://raw.githubusercontent.com/ntanphatt/WinPro/main/js/WinkPro.js
+
+[MITM]
+hostname = %APPEND%, api-sub.meitu.com
